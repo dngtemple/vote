@@ -14,8 +14,13 @@ app.use(express.json());
 import authRoutes from './routes/auth';
 import voteRoutes from './routes/vote';
 
-app.use('/api/auth', authRoutes);
-app.use('/api', voteRoutes);
+const router = express.Router();
+router.use('/auth', authRoutes);
+router.use('/', voteRoutes);
+
+// Mount router at both /api and / to handle potential Vercel path stripping
+app.use('/api', router);
+app.use('/', router);
 
 // Basic route
 app.get('/', (req, res) => {
