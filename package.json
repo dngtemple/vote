@@ -15,7 +15,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "scripts": {
-    "build": "cd frontend && npm install && npm run build"
+    "build": "cd frontend && npm install --include=dev && npm run build"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
