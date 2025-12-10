@@ -21,7 +21,10 @@ let isConnected = false;
 const connectDB = async () => {
     if (isConnected) return;
     try {
-        await mongoose.connect(MONGO_URI);
+        await mongoose.connect(MONGO_URI, {
+            serverSelectionTimeoutMS: 5000, // Fail after 5s if DB unreachable
+            socketTimeoutMS: 45000,
+        });
         isConnected = true;
         console.log('MongoDB connected');
     } catch (err) {
@@ -32,6 +35,9 @@ const connectDB = async () => {
 // Middleware to ensure DB is connected before handling requests
 app.use(async (req, res, next) => {
     await connectDB();
+    if (!isConnected) {
+        return res.status(503).json({ error: 'Database connection failed', message: 'Service Temporarily Unavailable' });
+    }
     next();
 });
 
