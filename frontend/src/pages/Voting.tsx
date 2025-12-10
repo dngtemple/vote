@@ -53,7 +53,7 @@ export default function Voting() {
             }
 
             try {
-                const response = await fetch(`${API_BASE_URL}/api/candidates`, {
+                const response = await fetch(`${API_BASE_URL}/candidates`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
