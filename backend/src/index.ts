@@ -14,6 +14,27 @@ app.use(express.json());
 import authRoutes from './routes/auth';
 import voteRoutes from './routes/vote';
 
+// Database connection with caching for Serverless
+const MONGO_URI = process.env.MONGO_URI || '';
+let isConnected = false;
+
+const connectDB = async () => {
+    if (isConnected) return;
+    try {
+        await mongoose.connect(MONGO_URI);
+        isConnected = true;
+        console.log('MongoDB connected');
+    } catch (err) {
+        console.error('MongoDB connection error:', err);
+    }
+};
+
+// Middleware to ensure DB is connected before handling requests
+app.use(async (req, res, next) => {
+    await connectDB();
+    next();
+});
+
 const router = express.Router();
 router.use('/auth', authRoutes);
 router.use('/', voteRoutes);
@@ -22,20 +43,17 @@ router.use('/', voteRoutes);
 app.use('/api', router);
 app.use('/', router);
 
-// Basic route
-app.get('/', (req, res) => {
-    res.send('Voting App API is running');
+// Global Error Handler
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error', details: err.message });
 });
 
-// Database connection
-const MONGO_URI = process.env.MONGO_URI || '';
+// Basic route
+app.get('/', (req, res) => {
+    res.json({ message: 'Voting App API is running' });
+});
 
-mongoose.connect(MONGO_URI)
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.error('MongoDB connection error:', err));
-
-
-// Conditionally listen
 if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, () => {
         console.log(`Server running on port ${PORT} - Stats Endpoint Active`);
