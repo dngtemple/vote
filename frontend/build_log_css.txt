@@ -1,0 +1,23 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+[36mvite v5.4.21 [32mbuilding for production...[36m[39m
+transforming...
+(node:9744) Warning: Failed to load the ES module: C:\Users\ClintonBaah\Desktop\vote\frontend\postcss.config.js. Make sure to set "type": "module" in the nearest package.json file or use the .mjs extension.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[Failed to load PostCSS config: Failed to load PostCSS config (searchPath: C:/Users/ClintonBaah/Desktop/vote/frontend): [SyntaxError] Unexpected token 'export'
+C:\Users\ClintonBaah\Desktop\vote\frontend\postcss.config.js:1
+export default {
+^^^^^^
+
+SyntaxError: Unexpected token 'export'
+    at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+    at Module._compile (node:internal/modules/cjs/loader:1734:20)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1480:32)
+    at Module._load (node:internal/modules/cjs/loader:1299:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at cjsLoader (node:internal/modules/esm/translators:342:5)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:234:7)
+    at ModuleJob.run (node:internal/modules/esm/module_job:377:25)]
+
+Node.js v24.11.0
