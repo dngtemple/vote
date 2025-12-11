@@ -146,7 +146,7 @@ export default function Voting() {
                                 You have already participated in this election.
                             </CardDescription>
                         </CardHeader>
-                        <CardContent className="space-y-6 pt-6">
+                        {/* <CardContent className="space-y-6 pt-6">
 
                             <Button
                                 onClick={() => navigate('/results')}
@@ -156,7 +156,7 @@ export default function Voting() {
                                 <BarChart3 className="mr-2 h-5 w-5" />
                                 View Live Results
                             </Button>
-                        </CardContent>
+                        </CardContent> */}
                     </Card>
                 </motion.div>
             </div>

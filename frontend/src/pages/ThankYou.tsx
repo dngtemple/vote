@@ -33,9 +33,9 @@ export default function ThankYou() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                    <Button onClick={Result} className="w-full bg-blue-500" size="lg">
+                    {/* <Button onClick={Result} className="w-full bg-blue-500" size="lg">
                         View Results
-                    </Button>
+                    </Button> */}
                     <Button onClick={handleLogout} className="w-full" size="lg">
                         Logout
                     </Button>
