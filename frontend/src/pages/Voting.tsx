@@ -6,7 +6,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Loader } from '@/components/ui/loader';
 import { motion } from 'framer-motion';
-import { Vote, CheckCircle2, Send, BarChart3, Lock } from 'lucide-react';
+import { Vote, CheckCircle2, Send, Lock } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { API_BASE_URL } from '../config';
 

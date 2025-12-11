@@ -16,9 +16,9 @@ export default function ThankYou() {
     const handleLogout = () => {
         navigate('/');
     };
-    const Result = () => {
-        navigate('/results');
-    };
+    // const Result = () => {
+    //     navigate('/results');
+    // };
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-50 p-4">
