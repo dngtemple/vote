@@ -27,25 +27,40 @@ export default function Voting() {
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
     const [hasVoted, setHasVoted] = useState(false);
+    const [votingEnded, setVotingEnded] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const checkVoterStatus = () => {
+        const checkVotingStatus = () => {
+            const now = new Date();
+            const deadline = new Date('2025-12-28T16:30:00');
+
+            if (now > deadline) {
+                setVotingEnded(true);
+                setLoading(false);
+                return;
+            }
+
             const voterData = localStorage.getItem('voter');
             if (voterData) {
                 const voter = JSON.parse(voterData);
                 if (voter.hasVoted) {
                     setHasVoted(true);
                     setLoading(false);
-                    return true;
+                    return;
                 }
             }
-            return false;
         };
 
-        if (checkVoterStatus()) return;
+        checkVotingStatus();
+        if (votingEnded) return;
 
         const fetchCandidates = async () => {
+            // If voting ended, don't fetch
+            const now = new Date();
+            const deadline = new Date('2025-12-28T16:30:00');
+            if (now > deadline) return;
+
             const token = localStorage.getItem('token');
             if (!token) {
                 navigate('/');
@@ -74,7 +89,7 @@ export default function Voting() {
         };
 
         fetchCandidates();
-    }, [navigate]);
+    }, [navigate, votingEnded]);
 
     const handleVoteChange = (position: string, candidateId: string) => {
         setVotes((prev) => ({ ...prev, [position]: { candidateId, type: 'yes' } }));
@@ -127,6 +142,39 @@ export default function Voting() {
     };
 
     if (loading) return <div className='w-screen flex justify-center items-center h-screen'><Loader /></div>;
+
+    if (votingEnded) {
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-gray-50 p-4">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="w-full max-w-md"
+                >
+                    <Card className="shadow-xl border-l-4 border-l-red-500">
+                        <CardHeader className="text-center space-y-4 pb-2">
+                            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto">
+                                <Lock className="w-8 h-8 text-red-600" />
+                            </div>
+                            <CardTitle className="text-2xl font-bold text-gray-800">Voting Closed</CardTitle>
+                            <CardDescription className="text-lg">
+                                The voting period has ended. Thank you for your interest.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6 pt-6">
+                            <Button
+                                onClick={() => navigate('/')}
+                                className="w-full h-12 text-sm"
+                                variant="outline"
+                            >
+                                Back to Login
+                            </Button>
+                        </CardContent>
+                    </Card>
+                </motion.div>
+            </div>
+        );
+    }
 
     if (hasVoted) {
         return (
